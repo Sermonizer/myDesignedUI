@@ -1,0 +1,99 @@
+.btn {
+  position: relative;
+  display: inline-block;
+  font-weight: $btn-font-weight;
+  line-height: $btn-line-height;
+  color: $body-color;
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+  background-image: none;
+  border: $btn-border-width solid transparent;
+  // mixin代码重用
+  @include button-size(
+    $btn-padding-y,
+    $btn-padding-x,
+    $btn-font-size,
+    $border-radius
+  );
+  box-shadow: $btn-box-shadow;
+  // 鼠标悬浮 pointer是个手掌
+  cursor: pointer;
+  // 动画效果 
+  transition: $btn-transition;
+  // 给disabled添加特殊的样式
+  // scss语法，代表.btn.disabled 串联选择器 作用于同一标签
+  // 有disabled类的
+  &.disabled,
+  // 属性选择器 有disabled属性的
+  &[disabled] {
+    cursor: not-allowed;
+    // 透明度
+    opacity: $btn-disabled-opacity;
+    // 边缘阴影
+    box-shadow: none;
+    // > 直接子代组合器 * 通配符 给所有的子元素设置统一样式
+    > * {
+      // 不接受鼠标事件
+      pointer-events: none;
+    }
+  }
+}
+
+.btn-lg {
+  @include button-size(
+    $btn-padding-y-lg,
+    $btn-padding-x-lg,
+    $btn-font-size-lg,
+    $btn-border-radius-lg
+  );
+}
+
+.btn-sm {
+  @include button-size(
+    $btn-padding-y-sm,
+    $btn-padding-x-sm,
+    $btn-font-size-sm,
+    $btn-border-radius-sm
+  );
+}
+
+.btn-primary {
+  @include button-style($primary, $primary, $white);
+}
+
+.btn-danger {
+  @include button-style($danger, $danger, $white);
+}
+
+.btn-default {
+  @include button-style(
+    $white,
+    $gray-400,
+    $body-color,
+    $white,
+    $primary,
+    $primary
+  );
+}
+
+.btn-link {
+  font-weight: $font-weight-normal;
+  color: $btn-link-color;
+  text-decoration: $link-decoration;
+  box-shadow: none;
+  &:hover {
+    color: $btn-link-hover-color;
+    text-decoration: $link-hover-decoration;
+  }
+  &:focus,
+  &.focus {
+    text-decoration: $link-hover-decoration;
+    box-shadow: none;
+  }
+  &:disabled,
+  &.disabled {
+    text-decoration: $btn-link-disabled-color;
+    pointer-events: none;
+  }
+}

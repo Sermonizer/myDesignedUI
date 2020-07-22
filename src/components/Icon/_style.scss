@@ -1,0 +1,9 @@
+/** 
+  scss键值对 用类似循环的方法添加变量 
+  variables中创建键值对 $theme-colors
+  */
+@each $key, $val in $theme-colors {
+  .icon-#{$key} {
+    color: $val;
+  }
+}
