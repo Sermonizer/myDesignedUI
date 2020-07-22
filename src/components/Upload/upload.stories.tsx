@@ -91,27 +91,27 @@ const acceptUpload = () => {
 //   />
 // );
 
-const cycleLifeUpload = () => {
-  const beforeUpload = (file: UploadFile) => {
-    if (file.size > 50000) {
-      console.log("上传文件太大");
-      return false;
-    }
-    return true;
-  };
-  return (
-    <Upload
-      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-      beforeUpload={beforeUpload}
-      onProgress={action("progress")}
-      onSuccess={action("success")}
-      onError={action("error")}
-      onChange={action("change")}
-    >
-      <Button>upload file</Button>
-    </Upload>
-  );
-};
+// const cycleLifeUpload = () => {
+//   const beforeUpload = (file: UploadFile) => {
+//     if (file.size > 50000) {
+//       console.log("上传文件太大");
+//       return false;
+//     }
+//     return true;
+//   };
+//   return (
+//     <Upload
+//       action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+//       beforeUpload={beforeUpload}
+//       onProgress={action("progress")}
+//       onSuccess={action("success")}
+//       onError={action("error")}
+//       onChange={action("change")}
+//     >
+//       <Button>upload file</Button>
+//     </Upload>
+//   );
+// };
 
 const dropUploadFile = () => (
   <Upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76" drag={true}>
@@ -126,5 +126,4 @@ storiesOf("Upload component", module)
   .add("Upload", simpleUpload)
   .add("用户自定义参数", userUpload)
   .add("用户自定义上传文件类型", acceptUpload)
-  .add("complete cycleLife Upload Component", cycleLifeUpload)
   .add("drop upload file - Upload", dropUploadFile);

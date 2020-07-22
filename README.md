@@ -1,4 +1,4 @@
-## ts仿实现ant-design库
+## 用TS仿ant-design实现UI组件库
 
 ##### 文档地址 [https://StringLiu2.github.io/mack-design](https://StringLiu2.github.io/mack-design)
 
