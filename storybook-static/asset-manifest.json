@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/Sermonizer/tx-design/static/css/main.2ae64716.chunk.css",
-    "main.js": "/Sermonizer/tx-design/main.6677ae8872a7f83b3223.bundle.js",
-    "main.css.map": "/Sermonizer/tx-design/static/css/main.2ae64716.chunk.css.map",
-    "main.js.map": "/Sermonizer/tx-design/main.6677ae8872a7f83b3223.bundle.js.map",
-    "runtime~main.js": "/Sermonizer/tx-design/runtime~main.6677ae8872a7f83b3223.bundle.js",
-    "runtime~main.js.map": "/Sermonizer/tx-design/runtime~main.6677ae8872a7f83b3223.bundle.js.map",
+    "main.css": "/Sermonizer/tx-design/static/css/main.8c8f6756.chunk.css",
+    "main.js": "/Sermonizer/tx-design/main.9ad4f741a27517d0189f.bundle.js",
+    "main.css.map": "/Sermonizer/tx-design/static/css/main.8c8f6756.chunk.css.map",
+    "main.js.map": "/Sermonizer/tx-design/main.9ad4f741a27517d0189f.bundle.js.map",
+    "runtime~main.js": "/Sermonizer/tx-design/runtime~main.9ad4f741a27517d0189f.bundle.js",
+    "runtime~main.js.map": "/Sermonizer/tx-design/runtime~main.9ad4f741a27517d0189f.bundle.js.map",
     "vendors~main.css": "/Sermonizer/tx-design/static/css/vendors~main.f8f248a5.chunk.css",
-    "vendors~main.js": "/Sermonizer/tx-design/vendors~main.6677ae8872a7f83b3223.bundle.js",
+    "vendors~main.js": "/Sermonizer/tx-design/vendors~main.9ad4f741a27517d0189f.bundle.js",
     "vendors~main.css.map": "/Sermonizer/tx-design/static/css/vendors~main.f8f248a5.chunk.css.map",
-    "vendors~main.js.map": "/Sermonizer/tx-design/vendors~main.6677ae8872a7f83b3223.bundle.js.map",
+    "vendors~main.js.map": "/Sermonizer/tx-design/vendors~main.9ad4f741a27517d0189f.bundle.js.map",
     "iframe.html": "/Sermonizer/tx-design/iframe.html",
-    "precache-manifest.3e78cdc6dafe17f4c1c948f5214e6411.js": "/Sermonizer/tx-design/precache-manifest.3e78cdc6dafe17f4c1c948f5214e6411.js",
+    "precache-manifest.e19ac049371f44642d14a9497cbde0a7.js": "/Sermonizer/tx-design/precache-manifest.e19ac049371f44642d14a9497cbde0a7.js",
     "service-worker.js": "/Sermonizer/tx-design/service-worker.js",
-    "vendors~main.6677ae8872a7f83b3223.bundle.js.LICENSE.txt": "/Sermonizer/tx-design/vendors~main.6677ae8872a7f83b3223.bundle.js.LICENSE.txt"
+    "vendors~main.9ad4f741a27517d0189f.bundle.js.LICENSE.txt": "/Sermonizer/tx-design/vendors~main.9ad4f741a27517d0189f.bundle.js.LICENSE.txt"
   },
   "entrypoints": [
-    "runtime~main.6677ae8872a7f83b3223.bundle.js",
+    "runtime~main.9ad4f741a27517d0189f.bundle.js",
     "static/css/vendors~main.f8f248a5.chunk.css",
-    "vendors~main.6677ae8872a7f83b3223.bundle.js",
-    "static/css/main.2ae64716.chunk.css",
-    "main.6677ae8872a7f83b3223.bundle.js"
+    "vendors~main.9ad4f741a27517d0189f.bundle.js",
+    "static/css/main.8c8f6756.chunk.css",
+    "main.9ad4f741a27517d0189f.bundle.js"
   ]
 }
