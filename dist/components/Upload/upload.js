@@ -16,147 +16,173 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-import React, { useRef, useCallback, useState } from 'react';
-import axios from 'axios';
-import FileList from './fileList';
-import Dragger from './dragger';
+import React, { useRef, useState } from "react";
+import axios from "axios";
+import UploadList from "./uploadList";
+import Dragger from "./dragger";
 /**
  * ### 引入方式
  * ~~~js
- * import { Upload } from 'mack-design';
+ * import { Upload } from "tx-design"
  * ~~~
  */
-export var Upload = function (_a) {
-    var action = _a.action, defaultFileList = _a.defaultFileList, headers = _a.headers, name = _a.name, data = _a.data, withCredentials = _a.withCredentials, accept = _a.accept, multiple = _a.multiple, beforeUpload = _a.beforeUpload, onProgress = _a.onProgress, onSuccess = _a.onSuccess, onError = _a.onError, onChange = _a.onChange, onRemove = _a.onRemove, children = _a.children, drag = _a.drag;
-    // 存储文件列表
-    var _b = useState(defaultFileList || []), fileList = _b[0], setFileList = _b[1];
-    // console.log(fileList);
+export var Upload = function (props) {
+    var action = props.action, defaultFileList = props.defaultFileList, // 用户可以自定义默认显示的文件列表
+    name = props.name, headers = props.headers, data = props.data, withCredentials = props.withCredentials, accept = props.accept, multiple = props.multiple, children = props.children, drag = props.drag, beforeUpload = props.beforeUpload, onProgress = props.onProgress, onSuccess = props.onSuccess, onError = props.onError, onChange = props.onChange, onRemove = props.onRemove;
+    // 用于拿到DOM节点
     var fileInput = useRef(null);
-    var handleClick = useCallback(function () {
-        var _a;
-        (_a = fileInput.current) === null || _a === void 0 ? void 0 : _a.click(); // 触发点击事件，出现文件上传界面
-    }, []);
-    // 更新的那个文件，第二个参数是一个UploadFile对象，可以提供哪个给这个对象都行
-    var updateFileList = useCallback(function (updateFile, updateObj) {
+    var _a = useState(defaultFileList || []), fileList = _a[0], setFileList = _a[1];
+    // 更新文件数组的方法 updateFile: 更新哪些文件；updateObj: 更新文件中的哪些值
+    var updateFileList = function (updateFile, updateObj) {
         setFileList(function (prevList) {
-            return prevList.map(function (prevFile) {
-                if (prevFile.uid === updateFile.uid) {
-                    return __assign(__assign({}, prevFile), updateObj);
+            return prevList.map(function (file) {
+                if (file.uid === updateFile.uid) {
+                    return __assign(__assign({}, file), updateObj);
                 }
-                return prevFile;
+                else {
+                    return file;
+                }
             });
         });
-    }, []);
-    var post = useCallback(function (uploadFile) {
-        setFileList(function (prevList) { return __spreadArrays([uploadFile], prevList); });
+    };
+    var handleClick = function () {
+        if (fileInput.current) {
+            fileInput.current.click();
+        }
+    };
+    var handleFileChange = function (e) {
+        var files = e.target.files;
+        if (!files) {
+            return;
+        }
+        // 上传file的方法
+        uploadFiles(files);
+        // 当上传结束后，把fileInput中的值清空
+        if (fileInput.current) {
+            fileInput.current.value = "";
+        }
+    };
+    // 删除文件的函数
+    var handleRemove = function (file) {
+        setFileList(function (prevList) {
+            // 返回一个删除目标文件后的新的Array
+            return prevList.filter(function (item) { return item.uid !== file.uid; });
+        });
+        if (onRemove) {
+            onRemove(file);
+        }
+    };
+    // 上传文件
+    var uploadFiles = function (files) {
+        // 因为files是FileList类型，是类数组，因此先转换为数组
+        var postFiles = Array.from(files);
+        postFiles.forEach(function (file) {
+            // 创建新的UploadFile
+            var newFile = {
+                uid: Date.now() + "upload-file",
+                status: "ready",
+                name: file.name,
+                size: file.size,
+                percent: 0,
+                raw: file,
+            };
+            // 没有beforeUpload，直接上传就可以了
+            if (!beforeUpload) {
+                post(file);
+            }
+            else {
+                var result = beforeUpload(newFile);
+                // 文件转换
+                if (result && result instanceof Promise) {
+                    result.then(function (processedFile) {
+                        post(file);
+                    });
+                }
+                else if (result !== false) {
+                    post(file);
+                }
+            }
+        });
+    };
+    // 文件上传的整个过程都放在post函数中
+    var post = function (file) {
+        // 上传开始时更新FileList
+        var _file = {
+            // 用当前时间作为文件ID
+            uid: Date.now() + "upload-file",
+            status: "ready",
+            name: file.name,
+            size: file.size,
+            percent: 0,
+            raw: file,
+        };
+        // 当选择多个文件上传时,只能获取到最后一个上传的文件
+        // setFileList([_file, ...fileList])
+        setFileList(function (prevList) {
+            return __spreadArrays([_file], prevList);
+        });
         var formData = new FormData();
-        // 添加用户自定义携带的参数
-        if (data && typeof data === 'object') {
+        // name存在就用name,不存在就用file代替
+        formData.append(name || "file", file);
+        // 添加更多的formData
+        if (data) {
             Object.keys(data).forEach(function (key) {
                 formData.append(key, data[key]);
             });
         }
-        formData.append(name, uploadFile.raw);
-        axios.post(action, formData, {
-            headers: __assign(__assign({}, headers), { 'Content-Type': "multipart/form-data" }),
+        axios
+            .post(action, formData, {
+            // 添加headers
+            headers: __assign(__assign({}, headers), { "Content-Type": "multipart/form-data" }),
+            // Post时是否携带cookies,axios自带的属性
             withCredentials: withCredentials,
-            onUploadProgress: function (progressEvent) {
-                var _a;
-                var percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total) || 0;
-                // 在还没上传完毕的情况下
+            // 计算上传百分比
+            onUploadProgress: function (e) {
+                var percentage = Math.round((e.loaded * 100) / e.total) || 0;
                 if (percentage < 100) {
-                    var percentFileObj = {
-                        percent: percentage,
-                        status: "uploading"
-                    };
-                    // 改变状态，上传中，也更新fileList
-                    updateFileList(uploadFile, percentFileObj);
-                    // 如果有就调用这个
-                    (_a = onProgress) === null || _a === void 0 ? void 0 : _a(progressEvent, __assign(__assign({}, uploadFile), percentFileObj));
+                    updateFileList(_file, { percent: percentage, status: "uploading" });
+                    if (onProgress) {
+                        onProgress(percentage, _file);
+                    }
                 }
+            },
+        })
+            .then(function (resp) {
+            // 给上传成功时添加updateFileList
+            updateFileList(_file, { status: "success", response: resp.data });
+            if (onSuccess) {
+                // resp.data: 服务器返回的数据
+                onSuccess(resp.data, _file);
             }
-        }).then(function (res) {
-            var _a, _b;
-            var successUploadObj = {
-                status: "success",
-                percent: 100,
-                response: res.data
-            };
-            (_a = onChange) === null || _a === void 0 ? void 0 : _a(__assign(__assign({}, uploadFile), successUploadObj));
-            (_b = onSuccess) === null || _b === void 0 ? void 0 : _b(res.data, __assign(__assign({}, uploadFile), successUploadObj));
-            // 成功上传，继续调用更新这个fileList
-            updateFileList(uploadFile, successUploadObj);
-        }).catch(function (err) {
-            var _a, _b;
-            var errorUploadObj = {
-                status: "error",
-                error: err
-            };
-            (_a = onChange) === null || _a === void 0 ? void 0 : _a(__assign(__assign({}, uploadFile), errorUploadObj));
-            (_b = onError) === null || _b === void 0 ? void 0 : _b(err, __assign(__assign({}, uploadFile), errorUploadObj));
-            // 上传错误，也更新
-            updateFileList(uploadFile, errorUploadObj);
-        });
-    }, [action, headers, data, withCredentials, name, updateFileList, onProgress, onSuccess, onError, onChange]);
-    // 处理文件上传
-    var uploadFiles = useCallback(function (files) {
-        var postFiles = Array.from(files);
-        // 开始上传
-        postFiles.forEach(function (file) {
-            // 创建我们的file
-            var uploadFile = {
-                uid: Date.now() + 'upload-file',
-                status: 'ready',
-                name: file.name,
-                size: file.size,
-                percent: 0,
-                raw: file
-            };
-            // 没有这个回调方法
-            if (!beforeUpload) {
-                post(uploadFile);
+            if (onChange) {
+                onChange(_file);
             }
-            else {
-                var newFile = beforeUpload(uploadFile);
-                if (newFile instanceof Promise) {
-                    // 返回新的文件，处理后的文件上传
-                    newFile.then(post);
-                }
-                else {
-                    // 是否上传
-                    newFile !== false && post(uploadFile);
-                }
+        })
+            .catch(function (err) {
+            // 给上传失败时添加updateFileList
+            updateFileList(_file, { status: "error", error: err });
+            if (onError) {
+                onError(err, _file);
+            }
+            if (onChange) {
+                onChange(_file);
             }
         });
-    }, [post, beforeUpload]);
-    // 处理上传前的操作
-    var handleUploadFile = useCallback(function (e) {
-        var files = e.target.files;
-        if (!files)
-            return; // 没有文件
-        uploadFiles(files); // 上传文件
-        fileInput.current && (fileInput.current.value = ''); // 清空
-    }, [uploadFiles]);
-    // 处理删除操作
-    var handleRemove = useCallback(function (file) {
-        var _a;
-        setFileList(function (prevList) {
-            return prevList.filter(function (item) { return item.uid !== file.uid; });
-        });
-        (_a = onRemove) === null || _a === void 0 ? void 0 : _a(file); // 删除
-    }, [onRemove]);
-    return (React.createElement("div", { className: 'upload-component' },
-        React.createElement("div", { className: "upload-input", style: { display: 'inline-block' }, onClick: handleClick },
-            drag ?
-                //  直接通过这个文件上传
-                React.createElement(Dragger, { onFile: uploadFiles }, children)
-                : children,
-            React.createElement("input", { className: "file-input", ref: fileInput, onChange: handleUploadFile, style: { display: 'none' }, type: "file", accept: accept, multiple: multiple })),
-        React.createElement(FileList, { fileList: fileList, onRemove: handleRemove })));
+    };
+    return (React.createElement("div", { className: "viking-upload-component" },
+        React.createElement("div", { className: "viking-upload-input", style: { display: "inline-block" }, onClick: handleClick },
+            drag ? (React.createElement(Dragger, { onFile: function (files) {
+                    uploadFiles(files);
+                } }, children)) : (children),
+            React.createElement("input", { className: "viking-file-input", style: { display: "none" }, 
+                // 创建ref，以拿到input的DOM节点
+                ref: fileInput, 
+                // 在onChange的生命周期来选择文件
+                onChange: handleFileChange, type: "file", accept: accept, multiple: multiple })),
+        React.createElement(UploadList, { fileList: fileList, onRemove: handleRemove })));
 };
+// 默认属性
 Upload.defaultProps = {
-    name: 'file',
-    withCredentials: false,
-    multiple: false,
+    name: "file",
 };
 export default Upload;

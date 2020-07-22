@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.c71a9038.chunk.css",
-    "main.js": "/main.695b16c8aeb8404eccaa.bundle.js",
-    "main.css.map": "/static/css/main.c71a9038.chunk.css.map",
-    "main.js.map": "/main.695b16c8aeb8404eccaa.bundle.js.map",
-    "runtime~main.js": "/runtime~main.695b16c8aeb8404eccaa.bundle.js",
-    "runtime~main.js.map": "/runtime~main.695b16c8aeb8404eccaa.bundle.js.map",
-    "vendors~main.css": "/static/css/vendors~main.f8f248a5.chunk.css",
-    "vendors~main.js": "/vendors~main.695b16c8aeb8404eccaa.bundle.js",
-    "vendors~main.css.map": "/static/css/vendors~main.f8f248a5.chunk.css.map",
-    "vendors~main.js.map": "/vendors~main.695b16c8aeb8404eccaa.bundle.js.map",
-    "iframe.html": "/iframe.html",
-    "precache-manifest.4f49563586a6edf1d17c134c77fde5f3.js": "/precache-manifest.4f49563586a6edf1d17c134c77fde5f3.js",
-    "service-worker.js": "/service-worker.js",
-    "vendors~main.695b16c8aeb8404eccaa.bundle.js.LICENSE.txt": "/vendors~main.695b16c8aeb8404eccaa.bundle.js.LICENSE.txt"
+    "main.css": "/Sermonizer/tx-design/static/css/main.40fa50a3.chunk.css",
+    "main.js": "/Sermonizer/tx-design/main.2086bbf028b4afc7cc79.bundle.js",
+    "main.css.map": "/Sermonizer/tx-design/static/css/main.40fa50a3.chunk.css.map",
+    "main.js.map": "/Sermonizer/tx-design/main.2086bbf028b4afc7cc79.bundle.js.map",
+    "runtime~main.js": "/Sermonizer/tx-design/runtime~main.2086bbf028b4afc7cc79.bundle.js",
+    "runtime~main.js.map": "/Sermonizer/tx-design/runtime~main.2086bbf028b4afc7cc79.bundle.js.map",
+    "vendors~main.css": "/Sermonizer/tx-design/static/css/vendors~main.f8f248a5.chunk.css",
+    "vendors~main.js": "/Sermonizer/tx-design/vendors~main.2086bbf028b4afc7cc79.bundle.js",
+    "vendors~main.css.map": "/Sermonizer/tx-design/static/css/vendors~main.f8f248a5.chunk.css.map",
+    "vendors~main.js.map": "/Sermonizer/tx-design/vendors~main.2086bbf028b4afc7cc79.bundle.js.map",
+    "iframe.html": "/Sermonizer/tx-design/iframe.html",
+    "precache-manifest.1cba399561b704f24ade786dc67e9f9a.js": "/Sermonizer/tx-design/precache-manifest.1cba399561b704f24ade786dc67e9f9a.js",
+    "service-worker.js": "/Sermonizer/tx-design/service-worker.js",
+    "vendors~main.2086bbf028b4afc7cc79.bundle.js.LICENSE.txt": "/Sermonizer/tx-design/vendors~main.2086bbf028b4afc7cc79.bundle.js.LICENSE.txt"
   },
   "entrypoints": [
-    "runtime~main.695b16c8aeb8404eccaa.bundle.js",
+    "runtime~main.2086bbf028b4afc7cc79.bundle.js",
     "static/css/vendors~main.f8f248a5.chunk.css",
-    "vendors~main.695b16c8aeb8404eccaa.bundle.js",
-    "static/css/main.c71a9038.chunk.css",
-    "main.695b16c8aeb8404eccaa.bundle.js"
+    "vendors~main.2086bbf028b4afc7cc79.bundle.js",
+    "static/css/main.40fa50a3.chunk.css",
+    "main.2086bbf028b4afc7cc79.bundle.js"
   ]
 }

@@ -14,7 +14,7 @@ export declare type AlertProps = BaseAlertProps & HTMLAttributes<HTMLElement>;
 /**
  * ### 引用方式
  * ~~~js
- * import { Alert } from 'mack-design';
+ * import { Alert } from 'tx-design';
  * ~~~
  */
 export declare const Alert: FC<AlertProps>;

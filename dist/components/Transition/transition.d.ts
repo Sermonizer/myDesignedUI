@@ -1,21 +1,14 @@
-import { FC } from 'react';
-import { CSSTransitionProps } from 'react-transition-group/CSSTransition';
-declare type AnimationName = 'zoom-in-top' | 'zoom-in-left' | 'zoom-in-bottom' | 'zoom-in-right';
-declare type TransitionProps = CSSTransitionProps & {
-    /** 动画从哪个方向开始 */
-    animation?: AnimationName;
-    /** 是否再包裹一层div，防止原本设置了transition造成动画失效 */
-    wrapper?: boolean;
-    /** 动画持续时间 */
-    timeout: number;
-    /** 是否展示 */
-    in: boolean;
-};
-/**
- * ### 引用方式
- * ~~~js
- * import { Transition } from 'mack-design';
- * ~~~
+import React from "react";
+import { CSSTransitionProps } from "react-transition-group/CSSTransition";
+declare type AnimationName = "zoom-in-top" | "zoom-in-bottom" | "zoom-in-left" | "zoom-in-right";
+/** 原因：
+ * A class can implement an interface or type alias, both in the same exact way.
+ * Note however that a class and interface are considered static blueprints.
+ * Therefore, they can not implement / extend a type alias that names a union type.
  */
-export declare const Transition: FC<TransitionProps>;
+declare type TransitionProps = CSSTransitionProps & {
+    animation?: AnimationName;
+    wrapper?: boolean;
+};
+declare const Transition: React.FC<TransitionProps>;
 export default Transition;

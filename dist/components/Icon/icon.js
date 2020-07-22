@@ -20,27 +20,18 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import React from 'react';
-import classNames from 'classnames';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-// import { faCoffee } from '@fortawesome/free-solid-svg-icons';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-// library.add(faCoffee); // 这样使用单个图标
-library.add(fas); // 一次性添加fa开始的图标
-// 图标组件 自定义了className，通过Theme生成
-/**
- * ### 引用方式
- * ~~~js
- * import { Icon } from 'mack-design';
- * ~~~
- */
-export var Icon = function (_a) {
-    var _b;
-    var theme = _a.theme, className = _a.className, props = __rest(_a, ["theme", "className"]);
-    var classes = classNames('icon', className, (_b = {},
-        _b["icon-" + theme] = theme,
-        _b));
-    return (React.createElement(FontAwesomeIcon, __assign({ className: classes }, props)));
+import React from "react";
+import classNames from "classnames";
+// 导入icon图标
+import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome";
+var Icon = function (props) {
+    var _a;
+    // icon-primary
+    var theme = props.theme, className = props.className, restProps = __rest(props, ["theme", "className"]);
+    // 当传递theme时 定义一个icon-theme的类
+    var cnames = classNames("icon", className, (_a = {},
+        _a["icon-" + theme] = theme,
+        _a));
+    return React.createElement(FontAwesomeIcon, __assign({ className: cnames }, restProps));
 };
 export default Icon;

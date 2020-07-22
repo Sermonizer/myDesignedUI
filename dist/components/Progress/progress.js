@@ -1,19 +1,22 @@
-import React from 'react';
+import React from "react";
 /**
  * ### 引入方式
  * ~~~js
- * import { Progress } from 'mack-design';
+ * import { Progress } from "tx-design"
  * ~~~
  */
-export var Progress = function (_a) {
-    var percent = _a.percent, strokeHeight = _a.strokeHeight, showText = _a.showText, styles = _a.styles, theme = _a.theme;
+export var Progress = function (props) {
+    var percent = props.percent, strokeHeight = props.strokeHeight, showText = props.showText, styles = props.styles, theme = props.theme;
     return (React.createElement("div", { className: "progress-bar", style: styles },
-        React.createElement("div", { className: "progress-bar-outer", style: { height: strokeHeight + "px" } },
+        React.createElement("div", { className: "progress-bar-outer", 
+            // 添加动态高度
+            style: { height: strokeHeight + "px" } },
             React.createElement("div", { className: "progress-bar-inner color-" + theme, style: { width: percent + "%" } }, showText && React.createElement("span", { className: "inner-text" }, percent + "%")))));
 };
+// 进度条的默认值
 Progress.defaultProps = {
     strokeHeight: 15,
     showText: true,
-    theme: 'primary'
+    theme: "primary",
 };
 export default Progress;

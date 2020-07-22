@@ -20,139 +20,173 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
-import classNames from 'classnames';
-import Input from '../Input/input';
-import Icon from '../Icon/icon';
-import useDebounce from '../../hooks/useDebounce';
-import useClickOutside from '../../hooks/useClickOutside';
-import Transition from '../Transition/transition';
+import React, { useState, useEffect, useRef, } from "react";
+import classNames from "classnames";
+import useDebounce from "../../hooks/useDebounce";
+import useClickOutside from "../../hooks/useClickOutside";
+import Input from "../Input/input";
+import Transition from "../Transition/transition";
+import Icon from "../Icon/icon";
+import { library } from "@fortawesome/fontawesome-svg-core";
+// 引入全部图标
+import { fas } from "@fortawesome/free-solid-svg-icons";
+library.add(fas);
 /**
- * ### 引用方式
+ * ### 引入方式
  * ~~~js
- * import { AutoComplete } from 'mack-design';
+ * import { AutoComplete } from "tx-design"
  * ~~~
- * 支持HTMLInput的所有基本属性
  */
-export var AutoComplete = function (_a) {
-    var fetchSuggestions = _a.fetchSuggestions, onSelect = _a.onSelect, value = _a.value, renderOption = _a.renderOption, debounceTime = _a.debounceTime, props = __rest(_a, ["fetchSuggestions", "onSelect", "value", "renderOption", "debounceTime"]);
-    var _b = useState(value), inputValue = _b[0], setInputValue = _b[1];
-    var _c = useState([]), suggestions = _c[0], setSuggestions = _c[1];
-    // 是否loading的状态
-    var _d = useState(false), loading = _d[0], setLoading = _d[1];
-    // 高亮的索引
+export var AutoComplete = function (props) {
+    var fetchSuggestions = props.fetchSuggestions, onSelect = props.onSelect, renderOption = props.renderOption, 
+    // inputValue的初始值
+    value = props.value, restProps = __rest(props, ["fetchSuggestions", "onSelect", "renderOption", "value"]);
+    // 定义输入的值
+    var _a = useState(value), inputValue = _a[0], setInputValue = _a[1];
+    // 下拉框里的数据
+    var _b = useState([]), Suggestions = _b[0], setSuggestions = _b[1];
+    // 当fetch请求数据时 增加一个icon样式 显示正在请求
+    var _c = useState(false), loading = _c[0], setLoading = _c[1];
+    // 展示下拉菜单
+    var _d = useState(false), showDropdown = _d[0], setShowDropdown = _d[1];
+    // 异步 自定义hook
+    var debouncedValue = useDebounce(inputValue, 500);
+    // 下拉菜单高亮
     var _e = useState(-1), highlightIndex = _e[0], setHighlightIndex = _e[1];
-    // 方式点击回车，或者点击选项的时候选中结果又触发一次useEffect重新请求，这时候我们需要定义一个变量来限制
+    // 希望在选中数据后 不会再进行一次搜索
     var triggerSearch = useRef(false);
-    // 存放整个组件的ref
-    var autoCompleteRef = useRef(null);
-    // 获取节流后的值
-    var debounceValue = useDebounce(inputValue, debounceTime);
-    // 监听点击的位置，然后关闭下拉菜单
-    /** click outside 收起菜单 */
-    useClickOutside(autoCompleteRef, function () { return setSuggestions([]); });
-    // 监听inputValue的变化
+    // 指向组件的Dom节点 传入泛型 因为最外层是div
+    var componentRef = useRef(null);
+    // 点击窗口其他位置 使下拉框关闭
+    useClickOutside(componentRef, function () {
+        setSuggestions([]);
+    });
+    // 多次输入时 需要做防抖
     useEffect(function () {
-        var _a;
-        // 不止有值，还要确定当前是搜索中，才能获取列表
-        if (debounceValue && triggerSearch.current) {
-            var result = (_a = fetchSuggestions) === null || _a === void 0 ? void 0 : _a(debounceValue);
-            // 判断是不是返回Promise
-            if (result instanceof Promise) {
-                // 清空然后再加载
-                setSuggestions([]);
-                // 加载中
+        // 当value改变且trigger为true时才触发搜索的逻辑
+        if (debouncedValue && triggerSearch.current) {
+            setSuggestions([]);
+            var results = fetchSuggestions(debouncedValue);
+            // 异步的实现
+            if (results instanceof Promise) {
+                // console.log("trigger");
                 setLoading(true);
-                result.then(function (suggestions) {
-                    setSuggestions(suggestions);
-                    // 加载完毕
+                results.then(function (data) {
                     setLoading(false);
+                    setSuggestions(data);
+                    if (data.length > 0) {
+                        setShowDropdown(true);
+                    }
                 });
             }
             else {
-                setSuggestions(result);
+                setSuggestions(results);
+                setShowDropdown(true);
+                if (results.length > 0) {
+                    setShowDropdown(true);
+                }
             }
         }
         else {
-            setSuggestions([]);
+            setShowDropdown(false);
         }
-        setHighlightIndex(-1); // 输入完毕后，然后变回去-1
-    }, [debounceValue, fetchSuggestions]);
-    // 移动索引，让高亮现实位置改变
-    var highlight = useCallback(function (index) {
-        if (index < 0) {
+        setHighlightIndex(-1);
+    }, [debouncedValue, fetchSuggestions]);
+    // 设置高亮的index
+    var highlight = function (index) {
+        // 设置高亮的范围 不能一直往上\下按
+        if (index < 0)
             index = 0;
+        if (index >= Suggestions.length) {
+            index = Suggestions.length - 1;
         }
-        // 如果大于等于总长度，那就最后一项
-        if (index >= suggestions.length) {
-            index = suggestions.length - 1;
-        }
-        setHighlightIndex(index); // 重新设置高亮索引
-    }, [suggestions]);
-    // 改变change
-    var change = useCallback(function (e) {
+        setHighlightIndex(index);
+    };
+    // 处理输入框的改变
+    var handleChange = function (e) {
         var value = e.target.value.trim();
         setInputValue(value);
-        // 标识搜索中
+        // 当handleChange时希望trigger的值变为true
         triggerSearch.current = true;
-    }, []);
-    // 选中了
-    var handleSelect = useCallback(function (dataSource) {
-        var _a;
-        // 设置value
-        setInputValue(dataSource.value);
-        // 清除下拉菜单
-        setSuggestions([]);
-        // 返回select
-        (_a = onSelect) === null || _a === void 0 ? void 0 : _a(dataSource);
-        // 标识搜索完毕了
+    };
+    // 将点击的值填充到下拉菜单中 并且隐藏下拉菜单
+    var handleSelect = function (item) {
+        // item是Object,因此要取它的value
+        setInputValue(item.value);
+        setShowDropdown(false);
+        if (onSelect) {
+            onSelect(item);
+        }
+        // 当handleSelect时希望trigger的值变为false 不去触发搜索
         triggerSearch.current = false;
-    }, [onSelect]);
-    // 处理键盘事件 /** keyboard support */
-    var handleKeyDown = useCallback(function (e) {
+    };
+    // 处理键盘事件
+    var handleKeyDown = function (e) {
         switch (e.keyCode) {
-            case 13: // 回车 找到那个直接调用选择方法
-                // 需要存在这个才能按回车
-                suggestions[highlightIndex] && handleSelect(suggestions[highlightIndex]);
+            // 回车
+            case 13:
+                if (Suggestions[highlightIndex]) {
+                    handleSelect(Suggestions[highlightIndex]);
+                }
                 break;
-            case 38: // 向上的箭头
+            // 向上
+            case 38:
                 highlight(highlightIndex - 1);
                 break;
-            case 40: // 向下的箭头
+            // 向下
+            case 40:
                 highlight(highlightIndex + 1);
                 break;
-            case 27: // esc 清除下拉菜单
-                setSuggestions([]);
-                setHighlightIndex(-1); // 直接变回去-1
+            // esc
+            case 27:
+                setShowDropdown(false);
                 break;
             default:
                 break;
         }
-    }, [highlight, highlightIndex, suggestions, handleSelect]);
-    // 渲染的模板
-    var renderTemplate = useCallback(function (dataSource) {
-        return renderOption ? renderOption(dataSource) : dataSource.value;
-    }, [renderOption]);
-    // 生成下拉列表
-    var generateDropdown = useMemo(function () { return (React.createElement(Transition
-    // loading，如果当请求结束，这个loading就变成false，下拉菜单就不见了
-    // 所以需要设置一个suggestions的长度是否大于0
-    , { 
-        // loading，如果当请求结束，这个loading就变成false，下拉菜单就不见了
-        // 所以需要设置一个suggestions的长度是否大于0
-        in: suggestions.length > 0 || loading, animation: "zoom-in-top", timeout: 300, onExited: function () { setSuggestions([]); } },
-        React.createElement("ul", { className: "suggestion-list" },
-            loading &&
-                React.createElement("div", { className: "suggestions-loading-icon" },
-                    React.createElement(Icon, { icon: "spinner", spin: true })),
-            suggestions.map(function (suggest, index) {
-                var classes = classNames('suggestion-item', {
-                    'item-highlighted': index === highlightIndex
-                });
-                return (React.createElement("li", { key: index, className: classes, onClick: function () { return handleSelect(suggest); } }, renderTemplate(suggest)));
-            })))); }, [suggestions, loading, handleSelect, renderTemplate, highlightIndex]);
-    return (React.createElement("div", { className: "auto-complete", ref: autoCompleteRef },
-        React.createElement(Input, __assign({ value: inputValue, onChange: change, onKeyDown: handleKeyDown }, props)),
-        generateDropdown));
+    };
+    // 判断用户是否自定义模板样式
+    var renderTemplate = function (item) {
+        return renderOption ? renderOption(item) : item.value;
+    };
+    // 显示下拉数据
+    var generateDropdown = function () {
+        return (React.createElement(Transition, { in: showDropdown || loading, animation: "zoom-in-top", timeout: 300, onExited: function () {
+                setSuggestions([]);
+            } },
+            React.createElement("ul", { className: "suggestion-list" },
+                loading && (React.createElement("div", { className: "suggstions-loading-icon" },
+                    React.createElement(Icon, { icon: "spinner", spin: true }))),
+                Suggestions.map(function (item, index) {
+                    var cnames = classNames("suggestion-item", {
+                        "is-active": index === highlightIndex,
+                    });
+                    return (React.createElement("li", { key: index, className: cnames, onClick: function () { return handleSelect(item); } }, renderTemplate(item)));
+                }))));
+    };
+    //   return (
+    //     <ul>
+    //       {Suggestions.map((item, index) => {
+    //         const cnames = classNames("suggestion-item", {
+    //           "item-highlighted": index === highlightIndex,
+    //         });
+    //         return (
+    //           <li
+    //             key={index}
+    //             className={cnames}
+    //             onClick={() => handleSelect(item)}
+    //           >
+    //             {renderTemplate(item)}
+    //           </li>
+    //         );
+    //       })}
+    //     </ul>
+    //   );
+    // };
+    return (React.createElement("div", { className: "auto-complete", ref: componentRef },
+        React.createElement(Input, __assign({ value: inputValue, onChange: handleChange, 
+            // 添加键盘事件 能够上下键 enter esc
+            onKeyDown: handleKeyDown }, restProps)),
+        generateDropdown()));
 };
 export default AutoComplete;

@@ -1,27 +1,22 @@
-import { FC, ReactNode } from 'react';
-import { InputProps } from '../Input/input';
+import { FC, ReactElement } from "react";
+import { InputProps } from "../Input/input";
 interface DataSourceObject {
     value: string;
 }
-/** data的数据类型 */
-export declare type DataSource<T = {}> = T & DataSourceObject;
-/** 组件的props类型 */
-export interface AutoCompleteProps extends Omit<InputProps, 'onSelect'> {
-    /** 对数据进行处理返回 */
-    fetchSuggestions: (value: string, data?: string[]) => DataSource[] | Promise<DataSource[]>;
-    /** 告诉用户选了那个值 */
-    onSelect?: (suggest: DataSource) => void;
-    /** custom option， 用户自定义模板 */
-    renderOption?: (suggest: DataSource) => ReactNode;
-    /** debounce 防抖的毫秒值 */
-    debounceTime?: number;
+export declare type DataSourceType<T = {}> = T & DataSourceObject;
+export interface AutoCompleteProps extends Omit<InputProps, "onSelect"> {
+    /** 用户自定义实现筛选数据的方法（并且实现异步请求）*/
+    fetchSuggestions: (str: string) => DataSourceType[] | Promise<DataSourceType[]>;
+    /** 告诉用户选择了哪个值 */
+    onSelect?: (item: DataSourceType) => void;
+    /** 用户自定义下拉菜单的模板 */
+    renderOption?: (item: DataSourceType) => ReactElement;
 }
 /**
- * ### 引用方式
+ * ### 引入方式
  * ~~~js
- * import { AutoComplete } from 'mack-design';
+ * import { AutoComplete } from "tx-design"
  * ~~~
- * 支持HTMLInput的所有基本属性
  */
 export declare const AutoComplete: FC<AutoCompleteProps>;
 export default AutoComplete;

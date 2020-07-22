@@ -27,7 +27,7 @@ import Transition from '../Transition/transition';
 /**
  * ### 引用方式
  * ~~~js
- * import { Alert } from 'mack-design';
+ * import { Alert } from 'tx-design';
  * ~~~
  */
 export var Alert = function (_a) {
@@ -43,7 +43,7 @@ export var Alert = function (_a) {
         if (onClose) {
             onClose(alertRef.current);
         }
-        // 不用干掉自己，直接隐藏了
+        // 直接隐藏了
         // alertRef.current?.parentElement?.removeChild(alertRef.current);
         setShow(false);
     }, [onClose]);

@@ -9,78 +9,95 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import React, { useState, useContext, useMemo, useCallback, useRef } from 'react';
-import classNames from 'classnames';
-import { MenuContext } from './menu';
-import Transition from '../Transition/transition';
-import Icon from '../Icon/icon';
-export var SubMenu = function (_a) {
-    var index = _a.index, title = _a.title, children = _a.children, className = _a.className;
+import React, { useContext, useState } from "react";
+import classNames from "classnames";
+import { MenuContext } from "./menu";
+import Icon from "../Icon/icon";
+import Transition from "../Transition/transition";
+export var SubMenu = function (props) {
+    var index = props.index, title = props.title, children = props.children, className = props.className;
+    // 通过context拿到index值和mode(横向/纵向)
     var context = useContext(MenuContext);
-    // 判断是否默认打开
-    var isOpened = useMemo(function () { var _a; return (index && context.mode === 'vertical') ? (_a = context.defaultOpenSubMenus) === null || _a === void 0 ? void 0 : _a.includes(index) : false; }, [index, context]);
-    var _b = useState(isOpened), menuOpen = _b[0], setOpen = _b[1];
-    var classes = classNames('menu-item submenu-item', className, {
-        'is-active': context.index === index,
-        'is-opened': menuOpen,
-        'is-vertical': context.mode === 'vertical',
+    // 断言 传入竖直状态下默认打开的菜单
+    var openedSubMenus = context.defaultOpenSubMenus;
+    // 当menu为竖直状态时 isopened才起作用
+    var isOpened = index && context.mode === "vertical"
+        ? openedSubMenus.includes(index)
+        : false;
+    // 设置下拉菜单展开开关
+    var _a = useState(isOpened), menuOpen = _a[0], setOpen = _a[1];
+    var classes = classNames("menu-item submenu-item", className, {
+        "is-active": context.index === index,
+        // 使纵向菜单中的icon在鼠标放上时不自动旋转 而是点击才旋转
+        "is-opened": menuOpen,
+        "is-vertical": context.mode === "vertical",
     });
-    // 渲染子节点, 子节点一定是MenuItem
-    var renderChildren = useMemo(function () {
-        var subMenuClasses = classNames('submenu', {
-            'menu-opened': menuOpen
-        });
-        var childrenComponent = React.Children.map(children, function (child, i) {
-            var childElement = child;
-            // 拿到静态属性
-            var displayName = childElement.type.displayName;
-            if (displayName === 'MenuItem') {
-                return React.cloneElement(childElement, { index: index + "-" + i });
-            }
-            // 如果不是MenuItem
-            console.error('Warning: SubMenu has a child which is not a MenuItem component');
-        });
-        return (React.createElement(Transition, { in: menuOpen, timeout: 300, animation: "zoom-in-top" },
-            React.createElement("ul", { className: subMenuClasses }, childrenComponent)));
-    }, [children, menuOpen, index]);
-    // 绑定点击事件
-    var handleClick = useCallback(function (e) {
+    // 点击展开
+    var handleClick = function (e) {
         e.preventDefault();
         setOpen(!menuOpen);
-    }, [menuOpen]);
-    // 绑定鼠标移入移出事件
-    var timer = useRef();
-    ;
-    var handleMouse = useCallback(function (e, toggle) {
-        clearTimeout(timer.current);
+    };
+    // 使下拉列表能够鼠标点上去就展开，拿走就合上
+    // 设置timer 使下拉栏打开/关闭更加平滑
+    var timer;
+    // toogle: 控制打开或者关闭
+    var handleMouse = function (e, toggle) {
+        clearTimeout(timer);
         e.preventDefault();
-        timer.current = setTimeout(function () {
+        timer = setTimeout(function () {
             setOpen(toggle);
-        }, 300);
-    }, []);
-    // 点击事件
-    var clickEvents = useMemo(function () {
-        return context.mode === 'vertical' ?
-            {
-                onClick: handleClick,
+        }, 70);
+    };
+    // 当菜单是竖着时 用点击展开
+    var clickEvents = context.mode === "vertical"
+        ? {
+            onClick: handleClick,
+        }
+        : {};
+    // 当菜单是横着时，用鼠标放上去展开
+    var hoverEvents = context.mode !== "vertical"
+        ? {
+            onMouseEnter: function (e) {
+                handleMouse(e, true);
+            },
+            onMouseLeave: function (e) {
+                handleMouse(e, false);
+            },
+        }
+        : {};
+    // 渲染下拉菜单里的内容
+    var renderChildren = function () {
+        // 使下拉菜单的class是可变的
+        var subMenuClasses = classNames("submenu", {
+            "menu-opened": menuOpen,
+        });
+        // React.Children.map(children, function[(thisArg)])
+        // 如果 children 是一个数组，它将被遍历并为数组中的每个子节点调用该函数。
+        // 如果子节点为 null 或是 undefined，则此方法将返回 null 或是 undefined，而不会返回数组。
+        var childrenComponent = React.Children.map(children, function (child, i) {
+            var childElement = child;
+            // subMenu下只能存放menuItem 其他元素会报错
+            if (childElement.type.displayName === "MenuItem") {
+                return React.cloneElement(childElement, {
+                    // 2-0 的形式
+                    index: index + "-" + i,
+                });
             }
-            : {};
-    }, [context.mode, handleClick]);
-    // 移如移出事件
-    var hoverEvents = useMemo(function () {
-        return context.mode !== 'vertical' ?
-            {
-                onMouseEnter: function (e) { return handleMouse(e, true); },
-                onMouseLeave: function (e) { return handleMouse(e, false); },
+            else {
+                console.error("warning: subm enu have a child not menuitem");
             }
-            : {};
-    }, [context.mode, handleMouse]);
-    return (React.createElement("li", __assign({ key: index, className: classes }, hoverEvents),
+        });
+        return (React.createElement(Transition, { in: menuOpen, timeout: 300, classNames: "zoom-in-top" },
+            React.createElement("ul", { className: subMenuClasses }, childrenComponent)));
+        // return <ul className={subMenuClasses}> {childrenComponent} </ul>;
+    };
+    return (
+    // hover放在最外层 click放在内层
+    React.createElement("li", __assign({ key: index, className: classes }, hoverEvents),
         React.createElement("div", __assign({ className: "submenu-title" }, clickEvents),
             title,
             React.createElement(Icon, { icon: "angle-down", className: "arrow-icon" })),
-        renderChildren));
+        renderChildren()));
 };
-/** 标识，用来判断是否渲染 */
-SubMenu.displayName = 'SubMenu';
+SubMenu.displayName = "SubMenu";
 export default SubMenu;

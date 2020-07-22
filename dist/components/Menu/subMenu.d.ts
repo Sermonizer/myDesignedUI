@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import { FC } from "react";
 export interface SubMenuProps {
-    /** 当前是否被选中的标识 */
+    /** 当前是否选中的标识 */
     index?: string;
-    /** SubMenu必备的标题 */
+    /** 下拉菜单的名称 */
     title: string;
     className?: string;
 }

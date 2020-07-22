@@ -20,15 +20,9 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
-import React from 'react';
-import { CSSTransition } from 'react-transition-group';
-/**
- * ### 引用方式
- * ~~~js
- * import { Transition } from 'mack-design';
- * ~~~
- */
-export var Transition = function (props) {
+import React from "react";
+import { CSSTransition } from "react-transition-group";
+var Transition = function (props) {
     var children = props.children, classNames = props.classNames, animation = props.animation, wrapper = props.wrapper, restProps = __rest(props, ["children", "classNames", "animation", "wrapper"]);
     return (React.createElement(CSSTransition, __assign({ classNames: classNames ? classNames : animation }, restProps), wrapper ? React.createElement("div", null, children) : children));
 };

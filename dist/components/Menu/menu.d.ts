@@ -1,18 +1,18 @@
-import React, { CSSProperties, FC } from 'react';
-import MenuItem from './menuItem';
+import React, { FC } from "react";
+import MenuItem from "./menuItem";
 import SubMenu from './subMenu';
-export declare type MenuMode = 'horizontal' | 'vertical';
+export declare type MenuMode = "horizontal" | "vertical";
 declare type SelectCallback = (selectedIndex: string) => void;
 export interface MenuProps {
-    /** 默认选中哪个index */
+    /** 默认 active 的菜单项的索引值 */
     defaultIndex?: string;
     className?: string;
-    /** 水平还是垂直模式 */
+    /** 菜单展示的样式 */
     mode?: MenuMode;
-    style?: CSSProperties;
-    /** 点击之后触发的事件 */
+    style?: React.CSSProperties;
+    /** 点击菜单项触发的回调函数 */
     onSelect?: SelectCallback;
-    /** 默认打开的subMenu */
+    /** 侧边栏默认展开的subMenu */
     defaultOpenSubMenus?: string[];
 }
 /** 在Menu组件身上绑定的静态属性 */
@@ -30,9 +30,9 @@ interface IMenuContext {
 }
 export declare const MenuContext: React.Context<IMenuContext>;
 /**
- * ### 引用方式
+ * ### 引入方式
  * ~~~js
- * import { Menu } from 'mack-design';
+ * import { Menu } from 'tx-design';
  * ~~~
  */
 export declare const Menu: FC<MenuProps> & MenuProperties;

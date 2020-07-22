@@ -22,29 +22,16 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 import React from "react";
 import classNames from "classnames";
-/**
- * ### Button
- * 引入方式
- * ~~~js
- * import { Button } from "tx-design"
- * ~~~
- */
 export var Button = function (props) {
     var _a;
-    // className: 用户自定义的classname
-    var btnType = props.btnType, className = props.className, disabled = props.disabled, size = props.size, children = props.children, href = props.href, restProps = __rest(props, ["btnType", "className", "disabled", "size", "children", "href"]);
-    // classnames里面放的是类，string或者obj形式, 默认添加btn的class
-    // className: 用户自定义的class
+    var btnType = props.btnType, size = props.size, disabled = props.disabled, className = props.className, children = props.children, href = props.href, restProps = __rest(props, ["btnType", "size", "disabled", "className", "children", "href"]);
     var classes = classNames("btn", className, (_a = {},
-        // 可变的写法 可以是large small primary...
         _a["btn-" + btnType] = btnType,
         _a["btn-" + size] = size,
-        // <a>链接的disabled添加到类属性里面 因为a本身没有disabled属性 因此如果是link 且有disabled
-        // 就添加一个属性
         _a.disabled = btnType === "link" && disabled,
         _a));
     if (btnType === "link" && href) {
-        return (React.createElement("a", __assign({ className: classes, href: href }, restProps), children));
+        return (React.createElement("a", __assign({ href: href, className: classes }, restProps), children));
     }
     else {
         return (React.createElement("button", __assign({ className: classes, disabled: disabled }, restProps), children));
@@ -52,6 +39,6 @@ export var Button = function (props) {
 };
 Button.defaultProps = {
     disabled: false,
-    btnType: "default",
+    btnType: "default"
 };
 export default Button;
