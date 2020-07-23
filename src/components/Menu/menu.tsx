@@ -3,7 +3,7 @@ import classNames from "classnames";
 import MenuItem, { MenuItemProps } from "./menuItem";
 import SubMenu, { SubMenuProps } from './subMenu';
 
-// 字符串字面量量
+// 字符串字面量
 export type MenuMode = "horizontal" | "vertical";
 // 复用
 type SelectCallback = (selectedIndex: string) => void;
