@@ -18,7 +18,7 @@ export interface MenuProps {
   style?: React.CSSProperties;
   /** 点击菜单项触发的回调函数 */
   onSelect?: SelectCallback;
-  /** 侧边栏默认展开的subMenu */
+  /** 竖着时侧边栏默认展开 */
   defaultOpenSubMenus?: string[]; // string[]里存放要展开的index
 }
 
