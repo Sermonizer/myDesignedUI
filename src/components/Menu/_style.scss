@@ -103,7 +103,6 @@
 .menu-vertical {
   flex-direction: column;
   border-bottom: 0px;
-  // margin: 10px 20px;
   border-right: $menu-border-width solid $menu-border-color;
   > .menu-item {
     border-left: $menu-item-active-border-width solid transparent;

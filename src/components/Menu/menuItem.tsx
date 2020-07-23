@@ -32,7 +32,7 @@ export const MenuItem: FC<MenuItemProps> = (props) => {
   );
 };
 
-// 判断子组件的类型
+// 添加子组件的类型，帮助React.children.map()对其进行判断
 MenuItem.displayName = "MenuItem";
 
 export default MenuItem;

@@ -10,12 +10,14 @@ import Menu, { MenuProps } from "./menu";
 import MenuItem from "./menuItem";
 import SubMenu from "./subMenu";
 
+// 测试普通的属性
 const testProps: MenuProps = {
   defaultIndex: "0",
   onSelect: jest.fn(),
   className: "test",
 };
 
+// 垂直时的属性
 const testVerticalProps: MenuProps = {
   defaultIndex: "0",
   mode: "vertical",
@@ -50,10 +52,10 @@ const createStyleFile = () => {
   return style;
 };
 
-let wrapper: RenderResult,
-  menuElement: HTMLElement,
-  activeElement: HTMLElement,
-  disabledElement: HTMLElement;
+let wrapper: RenderResult, // 包装函数
+  menuElement: HTMLElement, // 外侧Menu节点
+  activeElement: HTMLElement, // 第二个active节点
+  disabledElement: HTMLElement; // 第三个disabled节点
 // 单元测试
 describe("测试Menu和MenuItem组件", () => {
   // 钩子函数 在每个测试运行前都会跑 保存一些可能会重复的
@@ -83,7 +85,7 @@ describe("测试Menu和MenuItem组件", () => {
     expect(thirdItem).toHaveClass("is-active");
     expect(activeElement).not.toHaveClass("is-active");
     expect(testProps.onSelect).toHaveBeenCalledWith("2");
-    // 测试点击disabled 且onselect没有被调用
+    // 测试点击disabledElement时，onselect没有被调用
     fireEvent.click(disabledElement);
     expect(disabledElement).not.toHaveClass("is-active");
     expect(testProps.onSelect).not.toHaveBeenCalledWith("1");
@@ -91,7 +93,7 @@ describe("测试Menu和MenuItem组件", () => {
   
   it("should render vertical mode", () => {
     // beforeEach中渲染了wrapper 但是单元开始时又被渲染了一次 导致出错
-    // React test lib在单元结束后都会调用cleanup方法，将所有渲染回收
+    // React-testing-library在每个单元结束后都会调用cleanup()方法，将所有渲染回收,因此不同单元之间不会出现问题
     cleanup();
     const wrapper = render(generateMenu(testVerticalProps));
     const menuElement = wrapper.getByTestId("test-menu");

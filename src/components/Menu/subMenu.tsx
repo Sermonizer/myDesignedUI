@@ -20,7 +20,7 @@ export const SubMenu: FC<SubMenuProps> = (props) => {
   const context = useContext(MenuContext);
   // 断言 传入竖直状态下默认打开的菜单
   const openedSubMenus = context.defaultOpenSubMenus as Array<string>;
-  // 当menu为竖直状态时 isopened才起作用
+  // 当menu为竖直状态时 isOpened才起作用
   const isOpened =
     index && context.mode === "vertical"
       ? openedSubMenus.includes(index)
@@ -105,7 +105,7 @@ export const SubMenu: FC<SubMenuProps> = (props) => {
   };
 
   return (
-    // hover放在最外层 click放在内层
+    // hover放在最外层的li上面，click放在title上面
     <li key={index} className={classes} {...hoverEvents}>
       {/* 下拉菜单 title名称 */}
       <div className="submenu-title" {...clickEvents}>
