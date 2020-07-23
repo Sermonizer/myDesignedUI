@@ -1,4 +1,9 @@
-import React, { FC, useContext, FunctionComponentElement, useState } from "react";
+import React, {
+  FC,
+  useContext,
+  FunctionComponentElement,
+  useState,
+} from "react";
 import classNames from "classnames";
 import { MenuContext } from "./menu";
 import { MenuItemProps } from "./menuItem";
@@ -18,16 +23,16 @@ export const SubMenu: FC<SubMenuProps> = (props) => {
   const { index, title, children, className } = props;
   // 通过context拿到index值和mode(横向/纵向)
   const context = useContext(MenuContext);
-  // 断言 传入竖直状态下默认打开的菜单
+  // 类型断言 传入竖直状态下默认打开的子菜单数组
   const openedSubMenus = context.defaultOpenSubMenus as Array<string>;
-  // 当menu为竖直状态时 isOpened才起作用
+  // isOpened: 判断是否要展开SubMenu，替换掉下拉菜单展开的menuOpen参数
   const isOpened =
     index && context.mode === "vertical"
       ? openedSubMenus.includes(index)
       : false;
   // 设置下拉菜单展开开关
   const [menuOpen, setOpen] = useState(isOpened);
-  
+
   const classes = classNames("menu-item submenu-item", className, {
     "is-active": context.index === index,
     // 使纵向菜单中的icon在鼠标放上时不自动旋转 而是点击才旋转

@@ -1,7 +1,7 @@
 import React, { FC, useState, createContext } from "react";
 import classNames from "classnames";
 import MenuItem, { MenuItemProps } from "./menuItem";
-import SubMenu, { SubMenuProps } from "./subMenu";
+import SubMenu from "./subMenu";
 
 // 字符串字面量
 export type MenuMode = "horizontal" | "vertical";
@@ -30,7 +30,7 @@ interface MenuProperties {
   SubMenu: typeof SubMenu;
 }
 
-// 传递属性的接口
+// 向子组件传递属性的接口
 interface IMenuContext {
   index: string;
   onSelect?: SelectCallback;

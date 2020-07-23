@@ -70,7 +70,11 @@ describe("测试Menu和MenuItem组件", () => {
   it("should render correct Menu and MenuItem based on default props", () => {
     expect(menuElement).toBeInTheDocument();
     expect(menuElement).toHaveClass("menu test");
-    // 判断有几个一级结点 css :scope伪类 选择了muneElement本身 
+    /**
+     * 希望测试共有多少个一级li节点，但是getElementsByTagName('li')
+     * 获取了所有的li节点，因此与期望的li节点数目不同，会报错
+     * 要判断有几个一级结点，使用css的:scope伪类选择器，选择了menuElement本身的li节点 
+     */
     expect(menuElement.querySelectorAll(":scope > li").length).toEqual(4);
     // expect(menuElement.getElementsByTagName('li').length).toEqual(3)
     expect(activeElement).toHaveClass("menu-item is-active");
