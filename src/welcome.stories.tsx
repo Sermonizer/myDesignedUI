@@ -7,8 +7,9 @@ storiesOf('Welcome page', module)
       <>
         <h1>欢迎来到 tx-design 组件库</h1>
         <br></br>
-        <h2>tx-design 一套仿照Ant-Design打造的组件库</h2>
-        <h3>安装试试</h3>
+        <p>tx-design: 一套仿照Ant-Design打造的组件库</p>
+        <br></br>
+        <p>安装试试</p>
         <code>
           npm install tx-design --save
         </code>
