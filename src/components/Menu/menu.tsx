@@ -8,6 +8,7 @@ export type MenuMode = "horizontal" | "vertical";
 // 回调函数复用
 type SelectCallback = (selectedIndex: string) => void;
 
+// 当menu竖着时，子菜单默认展开
 export interface MenuProps {
   /** 默认 active 的菜单项的索引值 */
   defaultIndex?: string;
