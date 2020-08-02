@@ -27,6 +27,7 @@ const defaultInput = () => (
     <ControledInput />
   </>
 );
+
 const disabledInput = () => (
   <Input style={{ width: "300px" }} placeholder="disabled input" disabled />
 );

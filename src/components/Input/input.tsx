@@ -12,17 +12,17 @@ type InputSize = "lg" | "sm";
 // omit 忽略原有的属性
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLElement>, "size"> {
-  /**是否禁用 */
+  /** 是否禁用 */
   disabled?: boolean;
-  /**input大小 */
+  /** input大小 */
   size?: InputSize;
-  /**是否有icon 有什么样的 */
+  /** 是否有icon 有什么样的 */
   icon?: IconProp;
-  /**是否有后缀 */
+  /** 是否有后缀 */
   prepend?: string | ReactElement;
-  /**是否有前缀 */
+  /** 是否有前缀 */
   append?: string | ReactElement;
-  /**受控组件 需要用onChange来绑定对应的事件*/
+  /** 受控组件 需要用onChange来绑定对应的事件 */
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 

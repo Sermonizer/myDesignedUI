@@ -20,25 +20,27 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 library.add(fas);
 
 /*
-  泛型约束: 只允许这个函数传入包含value的变量  
-  数据不一定只是string 所以需要更复杂的类型来实现
+  因为数据不一定是string数组的形式，所以需要更复杂的类型来实现
+  采用了一种包含value：string的数据结构
+  泛型约束: 这个对象必须包含value作为key
 */
 interface DataSourceObject {
+  // 用value代替原来的data
   value: string;
 }
 
-// 使用泛型<T 默认值是{空对象}> 在使用的时候再定义它的类型 返回一个交叉类型
+// 使用泛型<T 默认值是{空对象}>定义数据的类型, 在使用的时候再定义它的类型 返回一个交叉类型（T + DataSourceObject）
 export type DataSourceType<T = {}> = T & DataSourceObject;
 
 export interface AutoCompleteProps extends Omit<InputProps, "onSelect"> {
   /** 用户自定义实现筛选数据的方法（并且实现异步请求）*/
   fetchSuggestions: (
     str: string
-    // 返回的可能是异步的（异步就返回Promise）
+    // 自定义请求的返回可能是异步的，返回一个Promise
   ) => DataSourceType[] | Promise<DataSourceType[]>;
   /** 告诉用户选择了哪个值 */
   onSelect?: (item: DataSourceType) => void;
-  /** 用户自定义下拉菜单的模板 */
+  /** 用户自定义下拉菜单的样式 */
   renderOption?: (item: DataSourceType) => ReactElement;
 }
 
@@ -60,7 +62,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
 
   // 定义输入的值
   const [inputValue, setInputValue] = useState(value as string);
-  // 下拉框里的数据
+  // 操作下拉菜单里的数据
   const [Suggestions, setSuggestions] = useState<DataSourceType[]>([]);
   // 当fetch请求数据时 增加一个icon样式 显示正在请求
   const [loading, setLoading] = useState(false);
@@ -110,7 +112,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     setHighlightIndex(-1);
   }, [debouncedValue, fetchSuggestions]);
 
-  // 设置高亮的index
+  // 设置下拉菜单中高亮的项
   const highlight = (index: number) => {
     // 设置高亮的范围 不能一直往上\下按
     if (index < 0) index = 0;
@@ -120,7 +122,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     setHighlightIndex(index);
   };
 
-  // 处理输入框的改变
+  // 处理input输入框的改变
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
     setInputValue(value);
@@ -128,7 +130,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     triggerSearch.current = true;
   };
 
-  // 将点击的值填充到下拉菜单中 并且隐藏下拉菜单
+  // 将点击的下拉菜单中的值填充到input中，并且隐藏下拉菜单
   const handleSelect = (item: DataSourceType) => {
     // item是Object,因此要取它的value
     setInputValue(item.value);
