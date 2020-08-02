@@ -41,6 +41,7 @@ const asyncAutoComplete = () => {
   //     return lakersWithNumber.filter((player) => player.value.includes(query));
   //   };
 
+  // 使用fetch实现请求
   const handleFetch = (query: string) => {
     return fetch(`https://api.github.com/search/users?q=${query}`)
       .then((res) => res.json())
