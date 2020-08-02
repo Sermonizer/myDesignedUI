@@ -109,6 +109,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     } else {
       setShowDropdown(false);
     }
+    // 在选中某一项后，将默认高亮值设置为-1，避免出现高亮值跟上次选择时相同的情况
     setHighlightIndex(-1);
   }, [debouncedValue, fetchSuggestions]);
 
@@ -119,6 +120,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     if (index >= Suggestions.length) {
       index = Suggestions.length - 1;
     }
+    // 设置高亮
     setHighlightIndex(index);
   };
 

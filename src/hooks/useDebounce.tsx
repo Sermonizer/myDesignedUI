@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-/** 节流的hooks */
+/** 自定义实现节流的hooks */
 export default function useDebounce(value: any, delay: number = 300) {
     const [debounceValue, setDebounceValue] = useState(value);
     useEffect(() => {   
@@ -8,7 +8,7 @@ export default function useDebounce(value: any, delay: number = 300) {
         const handler = window.setTimeout(() => {
             setDebounceValue(value);
         }, delay);
-        // 清除上次定时器
+        // 下次执行，清除上次设置的定时器
         return () => {
             clearTimeout(handler);
         }
