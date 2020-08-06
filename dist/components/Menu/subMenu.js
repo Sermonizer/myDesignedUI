@@ -9,7 +9,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, } from "react";
 import classNames from "classnames";
 import { MenuContext } from "./menu";
 import Icon from "../Icon/icon";
@@ -18,9 +18,9 @@ export var SubMenu = function (props) {
     var index = props.index, title = props.title, children = props.children, className = props.className;
     // 通过context拿到index值和mode(横向/纵向)
     var context = useContext(MenuContext);
-    // 断言 传入竖直状态下默认打开的菜单
+    // 类型断言 传入竖直状态下默认打开的子菜单数组
     var openedSubMenus = context.defaultOpenSubMenus;
-    // 当menu为竖直状态时 isopened才起作用
+    // isOpened: 判断是否要展开SubMenu，替换掉下拉菜单展开的menuOpen参数
     var isOpened = index && context.mode === "vertical"
         ? openedSubMenus.includes(index)
         : false;
@@ -92,7 +92,7 @@ export var SubMenu = function (props) {
         // return <ul className={subMenuClasses}> {childrenComponent} </ul>;
     };
     return (
-    // hover放在最外层 click放在内层
+    // hover放在最外层的li上面，click放在title上面
     React.createElement("li", __assign({ key: index, className: classes }, hoverEvents),
         React.createElement("div", __assign({ className: "submenu-title" }, clickEvents),
             title,

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import MenuItem from "./menuItem";
-import SubMenu from './subMenu';
+import SubMenu from "./subMenu";
 export declare type MenuMode = "horizontal" | "vertical";
 declare type SelectCallback = (selectedIndex: string) => void;
 export interface MenuProps {
@@ -12,7 +12,7 @@ export interface MenuProps {
     style?: React.CSSProperties;
     /** 点击菜单项触发的回调函数 */
     onSelect?: SelectCallback;
-    /** 侧边栏默认展开的subMenu */
+    /** 竖着时侧边栏默认展开 */
     defaultOpenSubMenus?: string[];
 }
 /** 在Menu组件身上绑定的静态属性 */

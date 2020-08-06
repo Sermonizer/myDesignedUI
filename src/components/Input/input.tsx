@@ -45,7 +45,7 @@ export const Input: FC<InputProps> = (props) => {
     "input-group-prepend": !!prepend,
   });
 
-  // 希望受控组件不会变成非受控组件
+  // 如果传入setState的初始值为undefined或者null，为其赋一个初始值
   const fixControlledValue = (value: any) => {
     if (typeof value === "undefined" || value === null) {
       // 为value设置初始值
@@ -56,7 +56,9 @@ export const Input: FC<InputProps> = (props) => {
 
   /**
    * 非受控组件使用defaultValue来表示组件的默认状态
-   * 只能有一个value 有了value defaultvalue就不能存在了
+   * 受控组件使用State设置属性
+   * 只能有一个value 有了value（即受控组件），
+   * defaultvalue就不能存在了（就避免变成非受控组件）
    */
   if ("value" in props) {
     delete restProps.defaultValue;
