@@ -9,7 +9,7 @@ export interface AutoCompleteProps extends Omit<InputProps, "onSelect"> {
     fetchSuggestions: (str: string) => DataSourceType[] | Promise<DataSourceType[]>;
     /** 告诉用户选择了哪个值 */
     onSelect?: (item: DataSourceType) => void;
-    /** 用户自定义下拉菜单的模板 */
+    /** 用户自定义下拉菜单的样式 */
     renderOption?: (item: DataSourceType) => ReactElement;
 }
 /**

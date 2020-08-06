@@ -15,6 +15,6 @@ export var MenuItem = function (props) {
     };
     return (React.createElement("li", { className: classes, style: style, onClick: handleClick }, children));
 };
-// 判断子组件的类型
+// 添加子组件的类型，帮助React.children.map()对其进行判断
 MenuItem.displayName = "MenuItem";
 export default MenuItem;

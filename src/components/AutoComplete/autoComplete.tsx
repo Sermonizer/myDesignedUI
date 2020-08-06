@@ -79,7 +79,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
 
   // 点击窗口其他位置 使下拉框关闭
   useClickOutside(componentRef, () => {
-    setSuggestions([]);
+    setShowDropdown(false)
   });
 
   // 多次输入时 需要做防抖

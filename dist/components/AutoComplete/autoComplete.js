@@ -43,7 +43,7 @@ export var AutoComplete = function (props) {
     value = props.value, restProps = __rest(props, ["fetchSuggestions", "onSelect", "renderOption", "value"]);
     // 定义输入的值
     var _a = useState(value), inputValue = _a[0], setInputValue = _a[1];
-    // 下拉框里的数据
+    // 操作下拉菜单里的数据
     var _b = useState([]), Suggestions = _b[0], setSuggestions = _b[1];
     // 当fetch请求数据时 增加一个icon样式 显示正在请求
     var _c = useState(false), loading = _c[0], setLoading = _c[1];
@@ -59,7 +59,7 @@ export var AutoComplete = function (props) {
     var componentRef = useRef(null);
     // 点击窗口其他位置 使下拉框关闭
     useClickOutside(componentRef, function () {
-        setSuggestions([]);
+        setShowDropdown(false);
     });
     // 多次输入时 需要做防抖
     useEffect(function () {
@@ -90,9 +90,10 @@ export var AutoComplete = function (props) {
         else {
             setShowDropdown(false);
         }
+        // 在选中某一项后，将默认高亮值设置为-1，避免出现高亮值跟上次选择时相同的情况
         setHighlightIndex(-1);
     }, [debouncedValue, fetchSuggestions]);
-    // 设置高亮的index
+    // 设置下拉菜单中高亮的项
     var highlight = function (index) {
         // 设置高亮的范围 不能一直往上\下按
         if (index < 0)
@@ -100,16 +101,17 @@ export var AutoComplete = function (props) {
         if (index >= Suggestions.length) {
             index = Suggestions.length - 1;
         }
+        // 设置高亮
         setHighlightIndex(index);
     };
-    // 处理输入框的改变
+    // 处理input输入框的改变
     var handleChange = function (e) {
         var value = e.target.value.trim();
         setInputValue(value);
         // 当handleChange时希望trigger的值变为true
         triggerSearch.current = true;
     };
-    // 将点击的值填充到下拉菜单中 并且隐藏下拉菜单
+    // 将点击的下拉菜单中的值填充到input中，并且隐藏下拉菜单
     var handleSelect = function (item) {
         // item是Object,因此要取它的value
         setInputValue(item.value);

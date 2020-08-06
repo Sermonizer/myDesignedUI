@@ -1,4 +1,13 @@
 @charset "UTF-8";
+/*
+    组件库的样式系统组成：
+        1 基础色彩系统
+        2 字体系统
+        3 表单
+        4 按钮
+        5 边框和阴影
+        6 可配置开关
+*/
 *,
 *::before,
 *::after {
@@ -560,51 +569,12 @@ main {
 .menu-vertical {
   flex-direction: column;
   border-bottom: 0px;
-  margin: 10px 20px;
   border-right: 1px solid #dee2e6; }
   .menu-vertical > .menu-item {
     border-left: 2px solid transparent; }
     .menu-vertical > .menu-item.is-active, .menu-vertical > .menu-item:hover {
       border-bottom: 0px;
       border-left: 2px solid #0d6efd; }
-
-.tabs {
-  display: flex;
-  flex-wrap: wrap;
-  padding-left: 0;
-  margin-bottom: 30px;
-  list-style: none;
-  border-bottom: 1px solid #dee2e6;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075); }
-  .tabs > .tab-item {
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out; }
-    .tabs > .tab-item:hover, .tabs > .tab-item:focus {
-      text-decoration: none; }
-    .tabs > .tab-item.is-disabled {
-      color: #6c757d;
-      pointer-events: none;
-      cursor: default; }
-    .tabs > .tab-item.is-active, .tabs > .tab-item:hover {
-      color: #0d6efd;
-      border-bottom: 2px solid #0d6efd; }
-  .tabs-card {
-    border-bottom: none;
-    box-shadow: none; }
-    .tabs-card .tab-item {
-      border-color: transparent;
-      border-bottom-color: #dee2e6;
-      border-style: solid;
-      border-width: 1px; }
-      .tabs-card .tab-item:hover {
-        color: #0d6efd;
-        border-bottom-color: #dee2e6; }
-      .tabs-card .tab-item.is-active, .tabs-card .tab-item.is-active:hover {
-        border-color: #dee2e6;
-        border-bottom-color: transparent;
-        border-top-left-radius: 0.25rem;
-        border-top-right-radius: 0.25rem; }
 
 /** 
   scss键值对 用类似循环的方法添加变量 
@@ -753,49 +723,6 @@ main {
       color: #fff !important; }
     .suggestion-list .suggestion-item:hover {
       color: #0d6efd !important; }
-
-.select {
-  position: relative; }
-  .select .select-list {
-    list-style: none;
-    padding-left: 0;
-    white-space: nowrap;
-    position: absolute;
-    background: #fff;
-    z-index: 100;
-    top: calc(100% + 8px);
-    left: 0;
-    border: 1px solid #dee2e6;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
-    width: 100%; }
-    .select .select-list .select-item {
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-      color: #212529; }
-      .select .select-list .select-item.is-active {
-        position: relative;
-        color: #0d6efd !important; }
-        .select .select-list .select-item.is-active .is-select {
-          position: absolute;
-          right: 1rem;
-          top: 0.5rem; }
-        .select .select-list .select-item.is-active:hover {
-          color: #0d6efd !important; }
-        .select .select-list .select-item.is-active.item-highlighted:hover {
-          color: #fff !important; }
-      .select .select-list .select-item.item-highlighted {
-        background: #0d6efd !important;
-        color: #fff !important; }
-      .select .select-list .select-item.is-disabled {
-        cursor: not-allowed;
-        opacity: 0.65; }
-        .select .select-list .select-item.is-disabled > * {
-          pointer-events: none; }
-        .select .select-list .select-item.is-disabled:hover {
-          color: inherit !important; }
-      .select .select-list .select-item:hover {
-        color: #0d6efd !important; }
 
 .upload-list {
   margin: 0;
