@@ -22,6 +22,11 @@ export const Dragger: FC<DragProps> = (props) => {
   const handleDrop = (e: DragEvent<HTMLElement>) => {
       e.preventDefault()
       setDragOver(false)
+      /**
+       * dataTransfer: 该属性用于保存拖放的数据和交互信息，返回DataTransfer对象
+       * dataTransfer.files: 返回拖动操作中的文件列表, 包含一个在数据传输上所有可用的本地文件列表。
+       * 如果拖动操作不涉及拖动文件，此属性是一个空列表。
+       */
       onFile(e.dataTransfer.files)
   }
 
