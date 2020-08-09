@@ -230,9 +230,9 @@ export const Upload: FC<UploadProps> = (props) => {
   };
 
   return (
-    <div className="viking-upload-component">
+    <div className="upload-component">
       <div
-        className="viking-upload-input"
+        className="upload-input"
         style={{ display: "inline-block" }}
         onClick={handleClick}
       >
@@ -248,7 +248,7 @@ export const Upload: FC<UploadProps> = (props) => {
           children
         )}
         <input
-          className="viking-file-input"
+          className="file-input"
           style={{ display: "none" }}
           // 创建ref，以拿到input的DOM节点
           ref={fileInput}
