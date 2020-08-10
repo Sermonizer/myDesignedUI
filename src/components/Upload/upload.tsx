@@ -15,13 +15,13 @@ export interface UploadFile {
   /** 上传状态 */
   status?: UploadFileStatus;
   /** 上传进度 */
-  percent?: number; 
+  percent?: number;
   /** 源文件 */
   raw?: File;
   /** 上传成功的响应 */
-  response?: any; 
+  response?: any;
   /** 上传失败的错误响应 */
-  error?: any; 
+  error?: any;
 }
 export interface UploadProps {
   /** 发送到的http/https接口地址 */
@@ -30,14 +30,14 @@ export interface UploadProps {
   defaultFileList?: UploadFile[];
   /** 自定义的请求头 */
   headers?: Record<string, any>;
-  /** 自定义的文件名  name */
+  /** 自定义的文件名name */
   name?: string;
   /** 用户自定义的数据 */
   data?: { [key: string]: any };
   /** 是否携带cookie */
   withCredentials?: boolean;
-  /** input本身的file约束属性 */
-  /** 约束，只能上传什么文件 */
+  /** input本身的file约束属性
+   * 用来约束上传文件的类型 */
   accept?: string;
   /** 是否上传多个文件 */
   multiple?: boolean;
@@ -47,9 +47,9 @@ export interface UploadProps {
   beforeUpload?: (file: UploadFile) => boolean | Promise<UploadFile>;
   /** 文件进度调用方法 */
   onProgress?: (percentage: number, file: UploadFile) => void;
-  /** 文件上传了触发的方法 */
+  /** 文件上传时触发的方法 */
   onChange?: (file: UploadFile) => void;
-  /** 上传成功 data: 服务器返回的数据*/
+  /** 上传成功 (data: 服务器返回的数据)*/
   onSuccess?: (data: any, file: UploadFile) => void;
   /** 上传失败 */
   onError?: (err: any, file: UploadFile) => void;
@@ -66,7 +66,7 @@ export interface UploadProps {
 export const Upload: FC<UploadProps> = (props) => {
   const {
     action,
-    defaultFileList, // 用户可以自定义默认显示的文件列表
+    defaultFileList, // 用户自定义默认显示的文件列表
     name,
     headers,
     data,
@@ -82,11 +82,13 @@ export const Upload: FC<UploadProps> = (props) => {
     onChange,
     onRemove, // 用户删除文件时触发
   } = props;
-  // 用于拿到DOM节点
-  const fileInput = useRef<HTMLInputElement>(null);
 
+  // 由于真正上传文件的是input，但是input被隐藏了，因此为其设置一个ref，
+  // 使用useRef来获取该节点
+  const fileInput = useRef<HTMLInputElement>(null);
+  // 上传文件的列表
   const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList || []);
-  // 更新文件数组的方法 updateFile: 更新哪些文件；updateObj: 更新文件中的哪些值
+  // 更新文件列表的方法 updateFile: 更新的文件；updateObj: 要更新的文件中的数据
   const updateFileList = (
     updateFile: UploadFile,
     updateObj: Partial<UploadFile>
@@ -101,19 +103,22 @@ export const Upload: FC<UploadProps> = (props) => {
       });
     });
   };
+  // 当input节点存在，就调用input的click事件
   const handleClick = () => {
     if (fileInput.current) {
       fileInput.current.click();
     }
   };
+  // 当input发生变化时，开始选择文件
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
+    // 如果没有文件，说明没有选择文件上传，就return掉
     if (!files) {
       return;
     }
-    // 上传file的方法
+    // 如果files存在，就上传files
     uploadFiles(files);
-    // 当上传结束后，把fileInput中的值清空
+    // 当上传结束后，将fileInput中的值清空
     if (fileInput.current) {
       fileInput.current.value = "";
     }
@@ -127,36 +132,6 @@ export const Upload: FC<UploadProps> = (props) => {
     if (onRemove) {
       onRemove(file);
     }
-  };
-  // 上传文件
-  const uploadFiles = (files: FileList) => {
-    // 因为files是FileList类型，是类数组，因此先转换为数组
-    let postFiles = Array.from(files);
-    postFiles.forEach((file) => {
-      // 创建新的UploadFile
-      const newFile: UploadFile = {
-        uid: Date.now() + "upload-file",
-        status: "ready",
-        name: file.name,
-        size: file.size,
-        percent: 0,
-        raw: file,
-      };
-      // 没有beforeUpload，直接上传就可以了
-      if (!beforeUpload) {
-        post(file);
-      } else {
-        const result = beforeUpload(newFile);
-        // 文件转换
-        if (result && result instanceof Promise) {
-          result.then((processedFile) => {
-            post(file);
-          });
-        } else if (result !== false) {
-          post(file);
-        }
-      }
-    });
   };
   // 文件上传的整个过程都放在post函数中
   const post = (file: File) => {
@@ -172,10 +147,11 @@ export const Upload: FC<UploadProps> = (props) => {
     };
     // 当选择多个文件上传时,只能获取到最后一个上传的文件
     // setFileList([_file, ...fileList])
-
     setFileList((prevList) => {
       return [_file, ...prevList];
     });
+    // FormData 接口提供了一种表示表单数据的键值对的构造方式，经过它的数据可以使用了XMLHttpRequest.send()方法送出
+    // 通过FormData对象来模拟表单数据
     const formData = new FormData();
     // name存在就用name,不存在就用file代替
     formData.append(name || "file", file);
@@ -190,11 +166,12 @@ export const Upload: FC<UploadProps> = (props) => {
         // 添加headers
         headers: {
           ...headers,
+          // 这个属性对应form的encType属性
           "Content-Type": "multipart/form-data",
         },
         // Post时是否携带cookies,axios自带的属性
         withCredentials,
-        // 计算上传百分比
+        // 计算上传百分比，axios自带的文件上传进度
         onUploadProgress: (e) => {
           let percentage = Math.round((e.loaded * 100) / e.total) || 0;
           if (percentage < 100) {
@@ -204,8 +181,8 @@ export const Upload: FC<UploadProps> = (props) => {
             }
           }
         },
-        // 计算成功时的回调
       })
+      // 上传成功时的回调
       .then((resp) => {
         // 给上传成功时添加updateFileList
         updateFileList(_file, { status: "success", response: resp.data });
@@ -227,6 +204,36 @@ export const Upload: FC<UploadProps> = (props) => {
           onChange(_file);
         }
       });
+  };
+  // 上传文件的函数
+  const uploadFiles = (files: FileList) => {
+    // 因为files是FileList类型，是类数组，因此先转换为数组
+    let postFiles = Array.from(files);
+    postFiles.forEach((file) => {
+      // 创建新的UploadFile
+      const newFile: UploadFile = {
+        uid: Date.now() + "upload-file",
+        status: "ready",
+        name: file.name,
+        size: file.size,
+        percent: 0,
+        raw: file,
+      };
+      // 没有beforeUpload，直接上传就可以了
+      if (!beforeUpload) {
+        post(file);
+      } else {
+        const result = beforeUpload(newFile);
+        // 文件转换
+        if (result && result instanceof Promise) {
+          result.then((processedFile) => {
+            post(processedFile);
+          });
+        } else if (result !== false) {
+          post(file);
+        }
+      }
+    });
   };
 
   return (
@@ -250,9 +257,9 @@ export const Upload: FC<UploadProps> = (props) => {
         <input
           className="file-input"
           style={{ display: "none" }}
-          // 创建ref，以拿到input的DOM节点
+          // 创建ref，使组件能够拿到input节点
           ref={fileInput}
-          // 在onChange的生命周期来选择文件
+          // 在onChange生命周期来选择文件
           onChange={handleFileChange}
           type="file"
           accept={accept}
