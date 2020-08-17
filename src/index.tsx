@@ -2,7 +2,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 library.add(fas);
 
-// 中转导出
+// 项目入口文件，导出模块
 export { default as Button } from './components/Button';
 
 export { default as Alert } from './components/Alert';
