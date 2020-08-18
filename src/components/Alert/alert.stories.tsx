@@ -16,14 +16,14 @@ const typeAlert = () => (
     </>
 );
 
-const isCloseAlert = () => (
+const hasCloseAlert = () => (
     <>
-        <Alert title="close alert" onClose={action('close alert')}/>
-        <Alert title="not close alert" isClose={false} />
+        <Alert title="can close alert" onClose={action('close alert')}/>
+        <Alert title="can't close alert" hasClose={false} />
     </>
 );
 
 storiesOf('Alert Component', module)
     .add('Alert', defaultAlert)
     .add('不同类型的Alert', typeAlert)
-    .add('是否close的Alert', isCloseAlert)
+    .add('能否关闭的Alert', hasCloseAlert)

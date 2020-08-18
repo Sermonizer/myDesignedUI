@@ -16,7 +16,7 @@ interface BaseAlertProps {
   /** alert的类型，背景色 */
   type?: AlertType;
   /** 是否有关闭 x */
-  isClose?: boolean;
+  hasClose?: boolean;
   /** Alert组件的标题 */
   title: string | ReactNode;
   /** 关闭Alert组件回调方法 */
@@ -31,7 +31,7 @@ export type AlertProps = BaseAlertProps & HTMLAttributes<HTMLElement>;
  */
 export const Alert: FC<AlertProps> = ({
   type,
-  isClose,
+  hasClose,
   className,
   title,
   children,
@@ -65,7 +65,7 @@ export const Alert: FC<AlertProps> = ({
       >
         {children ? <h3>{title}</h3> : <span>{title}</span>}
         {children && <span>{children}</span>}
-        {isClose && (
+        {hasClose && (
           <span className="close" onClick={close} data-testid="test-alert-icon">
             <Icon icon="times" />
           </span>
@@ -76,6 +76,6 @@ export const Alert: FC<AlertProps> = ({
 };
 Alert.defaultProps = {
   type: "default",
-  isClose: true,
+  hasClose: true,
 };
 export default Alert;
