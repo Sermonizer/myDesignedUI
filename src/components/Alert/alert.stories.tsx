@@ -19,7 +19,7 @@ const typeAlert = () => (
 const hasCloseAlert = () => (
     <>
         <Alert title="can close alert" onClose={action('close alert')}/>
-        <Alert title="can't close alert" hasClose={false} />
+        <Alert title="can't close alert" closable={false} />
     </>
 );
 

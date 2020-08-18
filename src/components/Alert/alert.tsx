@@ -16,7 +16,7 @@ interface BaseAlertProps {
   /** alert的类型，背景色 */
   type?: AlertType;
   /** 是否有关闭 x */
-  hasClose?: boolean;
+  closable?: boolean;
   /** Alert组件的标题 */
   title: string | ReactNode;
   /** 关闭Alert组件回调方法 */
@@ -31,7 +31,7 @@ export type AlertProps = BaseAlertProps & HTMLAttributes<HTMLElement>;
  */
 export const Alert: FC<AlertProps> = ({
   type,
-  hasClose,
+  closable,
   className,
   title,
   children,
@@ -45,7 +45,7 @@ export const Alert: FC<AlertProps> = ({
   // useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数
   const alertRef = useRef<HTMLDivElement>();
   // 自己干掉自己，也可以让用户自定义操作
-  const close = useCallback(() => {
+  const handleClose = useCallback(() => {
     if (onClose) {
       // 对alertRef.current这个属性进行非空断言
       onClose(alertRef.current!);
@@ -65,8 +65,8 @@ export const Alert: FC<AlertProps> = ({
       >
         {children ? <h3>{title}</h3> : <span>{title}</span>}
         {children && <span>{children}</span>}
-        {hasClose && (
-          <span className="close" onClick={close} data-testid="test-alert-icon">
+        {closable && (
+          <span className="close" onClick={handleClose} data-testid="test-alert-icon">
             <Icon icon="times" />
           </span>
         )}
@@ -76,6 +76,6 @@ export const Alert: FC<AlertProps> = ({
 };
 Alert.defaultProps = {
   type: "default",
-  hasClose: true,
+  closable: true,
 };
 export default Alert;

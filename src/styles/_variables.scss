@@ -75,7 +75,8 @@ $font-weight-bold:            700 !default;
 $font-weight-bolder:          bolder !default;
 $font-weight-base:            $font-weight-normal !default;
 
-// 行高
+// line-height: 用于设置多行元素的空间量，如多行文本的间距。
+// 对于块级元素，它指定元素行盒（line boxes）的最小高度。
 $line-height-base:            1.5 !default;
 $line-height-lg:              2 !default;
 $line-height-sm:              1.25 !default;
@@ -110,7 +111,6 @@ $headings-line-height:        1.2 !default;
 $headings-color:              null !default;
 
 // Paragraphs
-
 $paragraph-margin-bottom:   1rem !default;
 
 // 字体其他部分 heading list hr 等等
@@ -176,7 +176,6 @@ $pre-color:                         null !default;
 $enable-pointer-cursor-for-buttons:           true !default;
 
 // 边框 和 border radius
-
 $border-width:                1px !default;
 $border-color:                $gray-300 !default;
 
@@ -235,8 +234,6 @@ $alert-border-radius:         $border-radius !default;
 $alert-width:                 500px !default;
 $alert-margin-y:              0.275rem !default;
 $alert-margin-x:              0.275rem !default;
-
-
 
 // menu
 $menu-border-width:            $border-width !default;

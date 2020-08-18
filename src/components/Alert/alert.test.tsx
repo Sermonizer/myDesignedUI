@@ -27,9 +27,9 @@ describe('test Alert Component', () => {
         fireEvent.click(closeElement); // 触发事件,fn被调用一次，表示方法被执行
         expect(fn).toHaveBeenCalled();
     });
-    it('should render the correct Alert component prop hasClose is false', () => {
+    it('should render the correct Alert component prop when closable is false', () => {
         const fn = jest.fn();
-        const wrapper = render(<Alert hasClose={false} onClose={fn} title="this is alert title"></Alert>);
+        const wrapper = render(<Alert closable={false} onClose={fn} title="this is alert title"></Alert>);
         expect(wrapper.getByTestId('test-alert')).toBeInTheDocument();
         // 找不到关闭按钮
         let closeEle: HTMLSpanElement;

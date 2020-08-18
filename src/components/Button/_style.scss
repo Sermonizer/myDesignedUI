@@ -4,7 +4,8 @@
   font-weight: $btn-font-weight;
   line-height: $btn-line-height;
   color: $body-color;
-  white-space: nowrap;
+  // 用来设置如何处理元素中的空白
+  white-space: nowrap; // 不换行
   text-align: center;
   vertical-align: middle;
   background-image: none;
@@ -21,18 +22,18 @@
   cursor: pointer;
   // 动画效果 
   transition: $btn-transition;
-  // 给disabled添加特殊的样式
   // scss语法，代表.btn.disabled 串联选择器 作用于同一标签
-  // 有disabled类的
+  // 给有disabled类的添加特殊的样式（anchor）
   &.disabled,
-  // 属性选择器 有disabled属性的
+  // 属性选择器 有disabled属性的（button）
   &[disabled] {
+    // 不允许鼠标悬浮
     cursor: not-allowed;
     // 透明度
     opacity: $btn-disabled-opacity;
     // 边缘阴影
     box-shadow: none;
-    // > 直接子代组合器 * 通配符 给所有的子元素设置统一样式
+    // > 直接子代组合器; * 通配符: 给所有的子元素设置统一样式
     > * {
       // 不接受鼠标事件
       pointer-events: none;
@@ -71,6 +72,7 @@
     $white,
     $gray-400,
     $body-color,
+    // 悬停
     $white,
     $primary,
     $primary

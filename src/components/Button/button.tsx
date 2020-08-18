@@ -1,20 +1,7 @@
-import React, { FC, ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
+import React, { FC, ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode } from "react";
 import classNames from "classnames";
 
-// 利用枚举保存常量
-// export enum ButtonSize {
-//   Large = "lg",
-//   Small = "sm",
-// }
-
-// export enum ButtonType {
-//   Primary = "primary",
-//   Default = "default",
-//   Danger = "danger",
-//   Link = "link",
-// }
-
-// 利用字符串自变量保存常量
+// 利用字符串字面量保存常量
 export type ButtonSize = "lg" | "sm";
 
 export type ButtonType = "primary" | "default" | "danger" | "link";
@@ -29,8 +16,8 @@ interface BaseButtonProps {
   size?: ButtonSize;
   /** 设置Button的类型 */
   btnType?: ButtonType;
-  children?: React.ReactNode;
-  // <a> 标签
+  children?: ReactNode;
+  /** 设置超链接 */
   href?: string;
 }
 
