@@ -16,10 +16,10 @@ export interface MenuProps {
   /** 菜单展示的样式 */
   mode?: MenuMode;
   style?: React.CSSProperties;
-  /** 点击菜单项触发的回调函数 */
-  onSelect?: SelectCallback;
   /** 竖着时侧边栏默认展开 */
   defaultOpenSubMenus?: string[]; // string[]里存放要展开的index
+  /** 点击菜单项触发的回调函数 */
+  onSelect?: SelectCallback;
 }
 
 /** 在Menu组件身上绑定的静态属性 */
@@ -33,9 +33,9 @@ interface MenuProperties {
 // 向子组件传递属性的接口
 interface IMenuContext {
   index: string;
-  onSelect?: SelectCallback;
   mode?: MenuMode;
   defaultOpenSubMenus?: string[];
+  onSelect?: SelectCallback;
 }
 
 // 要给子组件用,要导出

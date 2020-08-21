@@ -58,9 +58,10 @@ let wrapper: RenderResult, // 包装函数
   menuElement: HTMLElement, // 外侧Menu节点
   activeElement: HTMLElement, // 第二个active节点
   disabledElement: HTMLElement; // 第三个disabled节点
+
 // 单元测试
 describe("测试Menu和MenuItem组件", () => {
-  // 钩子函数 在每个测试运行前都会跑 保存一些可能会重复的
+  // 钩子函数 在每个测试运行前都会跑 保存一些可能会重复的操作
   beforeEach(() => {
     wrapper = render(generateMenu(testProps));
     // 插入有CSS样式的HTMLStyleElement节点
