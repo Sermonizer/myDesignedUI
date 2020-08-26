@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-/** 自定义实现节流的hooks */
+/** 自定义实现防抖的hooks */
 export default function useDebounce(value: any, delay: number = 300) {
     const [debounceValue, setDebounceValue] = useState(value);
     useEffect(() => {   
