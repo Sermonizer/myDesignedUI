@@ -32,23 +32,23 @@ const simpleUpload = () => {
 };
 
 // 用户自定义文件属性
-const userUpload = () => {
-  return (
-    <Upload
-      action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-      onChange={action("changed")}
-      onRemove={action("removed")}
-      name="fileName"
-      data={{ key: "value" }}
-      headers={{ MyHeader: "hello" }}
-    >
-      <Button>上传文件</Button>
-      <br />
-      <br />
-      <p>查看方式: 上传文件后, 按F12在Network中查看</p>
-    </Upload>
-  );
-};
+// const userUpload = () => {
+//   return (
+//     <Upload
+//       action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+//       onChange={action("changed")}
+//       onRemove={action("removed")}
+//       name="fileName"
+//       data={{ key: "value" }}
+//       headers={{ MyHeader: "hello" }}
+//     >
+//       <Button>上传文件</Button>
+//       <br />
+//       <br />
+//       <p>查看方式: 上传文件后, 按F12在Network中查看</p>
+//     </Upload>
+//   );
+// };
 
 // 支持多选以及文件类型
 const acceptUpload = () => {
@@ -124,6 +124,6 @@ const dropUploadFile = () => (
 
 storiesOf("Upload component", module)
   .add("Upload", simpleUpload)
-  .add("用户自定义参数", userUpload)
+  // .add("用户自定义参数", userUpload)
   .add("用户自定义上传文件类型", acceptUpload)
   .add("drop upload file - Upload", dropUploadFile);
