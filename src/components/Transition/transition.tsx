@@ -41,7 +41,7 @@ const Transition: React.FC<TransitionProps> = (props) => {
 };
 
 Transition.defaultProps = {
-    /**
+  /**
    * 该属性被设置为true时，包裹的子节点会动态添加、删除
    * 当in为false，子节点不存在；当in为true，子节点被动态添加
    * 当active-done，子节点也被删除
