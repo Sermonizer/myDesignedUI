@@ -101,7 +101,6 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
         });
       } else {
         setSuggestions(results);
-        setShowDropdown(true);
         if (results.length > 0) {
           setShowDropdown(true);
         }
