@@ -35,8 +35,8 @@ export const SubMenu: FC<SubMenuProps> = (props) => {
 
   const classes = classNames("menu-item submenu-item", className, {
     "is-active": context.index === index,
-    // 使纵向菜单中的icon在鼠标放上时不自动旋转 而是点击才旋转
     "is-opened": menuOpen,
+    // 使纵向菜单中的icon在鼠标放上时不自动旋转 而是点击才旋转
     "is-vertical": context.mode === "vertical",
   });
 

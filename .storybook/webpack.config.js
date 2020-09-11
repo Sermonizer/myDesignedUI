@@ -1,7 +1,17 @@
+/*
+ * @Author: your name
+ * @Date: 2020-08-02 20:49:22
+ * @LastEditTime: 2020-09-07 23:21:28
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \tx-design\.storybook\webpack.config.js
+ */
 // webpack配置提供给storybook
 module.exports = ({ config }) => {
   config.module.rules.push({
+    // 匹配哪些文件
     test: /\.tsx?$/,
+    // 使用哪些loader进行处理
     use: [
       {
         loader: require.resolve("babel-loader"),

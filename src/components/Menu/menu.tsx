@@ -71,7 +71,6 @@ export const Menu: FC<MenuProps> & MenuProperties = (props) => {
    *  1. 更改高亮的index
    *  2. 调用onSelect函数, 用户可以进行自定义操作
    */
-
   const handleClick = (index: string) => {
     setActive(index);
     // 判断onSelect是否存在
@@ -97,8 +96,9 @@ export const Menu: FC<MenuProps> & MenuProperties = (props) => {
    *    给子组件自动添加index属性 用到了cloneElement(element, [props])
    *    以element元素为样版 并返回新的React元素 返回元素的props是原始元素与传入的
    *    props浅层合并的结果 新的元素会取代旧的元素 此时menuItem的index就设置为可选
+   * 
+   * 实现：renderChildren： 循环渲染组件的函数
    */
-  // renderChildren： 循环渲染组件
   const renderChildren = () => {
     return React.Children.map(children, (child, index) => {
       // child是ReactNode类型, 没有displayName属性, 因此要进行类型断言, 转换成FunctionComponent实例才能确定类型

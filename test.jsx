@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-29 22:12:02
- * @LastEditTime: 2020-08-29 22:33:08
+ * @LastEditTime: 2020-08-30 16:46:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \tx-design\test.jsx
@@ -11,10 +11,10 @@ import axios from "axios";
 
 const App = () => {
   const [data, setData] = useState({ hist: [] });
-  const [query, setQuery] = useState("redux")
+  const [query, setQuery] = useState("redux");
   const handleChange = (e) => {
-      setQuery(e.target.value)
-  }
+    setQuery(e.target.value);
+  };
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios(
@@ -26,7 +26,7 @@ const App = () => {
   }, [query]);
   return (
     <Fragment>
-        <input type="text" value={query} onChange={handleChange}/>
+      <input type="text" value={query} onChange={handleChange} />
       <ul>
         {data.hist.map((item) => (
           <li key={item.objectID}>
@@ -36,6 +36,6 @@ const App = () => {
       </ul>
     </Fragment>
   );
-}
+};
 
 export default App;
